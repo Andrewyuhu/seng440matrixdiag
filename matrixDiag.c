@@ -15,8 +15,9 @@ bool checkOffDiagonalZeros(int size, double matrix[size][size]);
 
 // Check if final result is correct
 bool checkOffDiagonalZeros(int size, double matrix[size][size]) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+    int i,j;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
             if (i != j && fabs(matrix[i][j]) > TOLERANCE) {
                 return false;
             }
@@ -27,8 +28,9 @@ bool checkOffDiagonalZeros(int size, double matrix[size][size]) {
 
 // Takes a matrix and transposes it
 void transposeMatrix(int size, double matrix[size][size], double transposed[size][size]) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+    int i,j;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
             transposed[j][i] = matrix[i][j];
         }
     }
@@ -45,8 +47,9 @@ void copyMatrix(int size, double source[size][size], double destination[size][si
 
 // Prints a matrix in an easy to read format
 void printMatrixArray(int size, double matrix[size][size]) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+    int i,j;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
             printf("%f ", matrix[i][j]);
         }
         printf("\n");
