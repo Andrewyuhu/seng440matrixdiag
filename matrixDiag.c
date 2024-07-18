@@ -7,11 +7,8 @@
 #define TOLERANCE 0.0001
 
 // Function Definitions
-void freeMatrix(double** matrix);
 void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], double rightMatrix[SIZE][SIZE], int start, int end);
-void printMatrix(int size, double **matrix);
 void printMatrixArray(int size, double matrix[size][size]);
-double** createIdentityMatrix(int size);
 void transposeMatrix(int size, double matrix[size][size], double transposed[size][size]);
 void copyMatrix(int size, double source[size][size], double destination[size][size]);
 bool checkOffDiagonalZeros(int size, double matrix[size][size]);
@@ -56,50 +53,21 @@ void printMatrixArray(int size, double matrix[size][size]) {
     }
 }
 
-// Creates a size x size identity matrix and returns the pointer
-double** createIdentityMatrix(int size) {
-    // Allocate memory for the s x s matrix
-    double **matrix = (double **)malloc(size * sizeof(double *));
-    for (int i = 0; i < size; i++) {
-        matrix[i] = (double *)malloc(size * sizeof(double));
-    }
-
-    // Initialize the matrix to be an identity matrix
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            if (i == j) {
-                matrix[i][j] = 1.0;
-            } else {
-                matrix[i][j] = 0.0;
-            }
-        }
-    }
-
-    return matrix;
-}
-
-// Free matrix memory
-void freeMatrix(double** matrix) {
-    for (int i = 0; i < SIZE; i++) {
-        free(matrix[i]);
-    }
-    free(matrix);
-}
-
 // Takes in a int size, multiplies mat1 and mat2 and stores result in result
 void multiplyMatrices(int size,double mat1[size][size],
                       double mat2[size][size],
                       double result[size][size]) {
 
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+    int i,j,k;
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
             result[i][j] = 0;
         }
     }
 
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            for (int k = 0; k < size; k++) {
+    for (i = 0; i < size; i++) {
+        for (j = 0; j < size; j++) {
+            for (k = 0; k < size; k++) {
                 result[i][j] += mat1[i][k] * mat2[k][j];
             }
         }
@@ -158,7 +126,7 @@ void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], doub
     // This section deals with applying the smaller rotations to main matrices
     // leftMatrix is U, rightMatrix is V
 
-    // Creating needed Matrices
+    // Init as one dimensional array
     double Us[4][4] = {
         {1.0, 0.0, 0.0, 0.0},
         {0.0, 1.0, 0.0, 0.0},
@@ -188,6 +156,7 @@ void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], doub
     Vs[end][end] = cosRotationR;
 
     // Tranpose needed matrices for multiplication
+    // We can modify the way multiplication works to prevent having to call the tranpose function
     transposeMatrix(4, Us, UTs);
     transposeMatrix(4, Vs, VTs);
     transposeMatrix(4, rightMatrix, VT);
@@ -217,6 +186,7 @@ int main() {
         {34.0, 16.0, 38.0, -19.0}
     };
 
+    // Can be defined as a single one-dimensional array
     double leftMatrix[4][4] = {
         {1.0, 0.0, 0.0, 0.0},
         {0.0, 1.0, 0.0, 0.0},
@@ -224,6 +194,7 @@ int main() {
         {0.0, 0.0, 0.0, 1.0}
     };
 
+    // Can be defined as a single one-dimensional array
      double rightMatrix[4][4] = {
         {1.0, 0.0, 0.0, 0.0},
         {0.0, 1.0, 0.0, 0.0},
