@@ -19,7 +19,6 @@ double toDouble (int32_t intVal) {
 
 int main() {
   
-
   double testerValue3 = 21.12121;
   double testerValue4 = 21.32131;
   double product2 = testerValue3 * testerValue4;
@@ -31,6 +30,5 @@ int main() {
   double convertedProduct = toDouble(product);
   printf("%f\n", convertedProduct);
   
-
   return 0;
 }
