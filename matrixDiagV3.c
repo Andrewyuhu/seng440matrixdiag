@@ -10,14 +10,14 @@ float to_float_value(int value);
 // Converts floating to fixed point
 int to_fixed_point_angle(float value)
 {
-  return (int)round(value * 16384); // 16384 = 2 ^ 14 S.F
+  return (int)roundf(value * 16384); // 16384 = 2 ^ 14 S.F
 }
 
 // Converts floating to fixed point
 // 16 bit max value / range (2^11-1, 2^11)
 int to_fixed_point_value(float value)
 {
-  return (int)round(value * 16); // 2 ^ 15 / 2 ^ 11 = 2 ^ 4 = 16
+  return (int)roundf(value * 16); // 2 ^ 15 / 2 ^ 11 = 2 ^ 4 = 16
 }
 
 // Converts floating to fixed point
@@ -43,5 +43,5 @@ int main()
   // printf("Fixed Arithmetic : %f\n", outputConverted);
   // printf("Regular Arithmetic : %f\n", value * angle);
 
-   return 0;
+  return 0;
 }
