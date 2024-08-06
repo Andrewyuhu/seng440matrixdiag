@@ -7,20 +7,24 @@
 #define TOLERANCE 0.0001
 
 // Function Definitions
-void freeMatrix(double** matrix);
+void freeMatrix(double **matrix);
 void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], double rightMatrix[SIZE][SIZE], int start, int end);
 void printMatrix(int size, double **matrix);
 void printMatrixArray(int size, double matrix[size][size]);
-double** createIdentityMatrix(int size);
+double **createIdentityMatrix(int size);
 void transposeMatrix(int size, double matrix[size][size], double transposed[size][size]);
 void copyMatrix(int size, double source[size][size], double destination[size][size]);
 bool checkOffDiagonalZeros(int size, double matrix[size][size]);
 
 // Check if final result is correct
-bool checkOffDiagonalZeros(int size, double matrix[size][size]) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            if (i != j && fabs(matrix[i][j]) > TOLERANCE) {
+bool checkOffDiagonalZeros(int size, double matrix[size][size])
+{
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            if (i != j && fabs(matrix[i][j]) > TOLERANCE)
+            {
                 return false;
             }
         }
@@ -29,27 +33,36 @@ bool checkOffDiagonalZeros(int size, double matrix[size][size]) {
 }
 
 // Takes a matrix and transposes it
-void transposeMatrix(int size, double matrix[size][size], double transposed[size][size]) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+void transposeMatrix(int size, double matrix[size][size], double transposed[size][size])
+{
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
             transposed[j][i] = matrix[i][j];
         }
     }
 }
 
 // Copies a matrix from one var to another
-void copyMatrix(int size, double source[size][size], double destination[size][size]) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+void copyMatrix(int size, double source[size][size], double destination[size][size])
+{
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
             destination[i][j] = source[i][j];
         }
     }
 }
 
 // Prints a matrix in an easy to read format
-void printMatrixArray(int size, double matrix[size][size]) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+void printMatrixArray(int size, double matrix[size][size])
+{
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
             printf("%f ", matrix[i][j]);
         }
         printf("\n");
@@ -57,19 +70,26 @@ void printMatrixArray(int size, double matrix[size][size]) {
 }
 
 // Creates a size x size identity matrix and returns the pointer
-double** createIdentityMatrix(int size) {
+double **createIdentityMatrix(int size)
+{
     // Allocate memory for the s x s matrix
     double **matrix = (double **)malloc(size * sizeof(double *));
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
+    {
         matrix[i] = (double *)malloc(size * sizeof(double));
     }
 
     // Initialize the matrix to be an identity matrix
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            if (i == j) {
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            if (i == j)
+            {
                 matrix[i][j] = 1.0;
-            } else {
+            }
+            else
+            {
                 matrix[i][j] = 0.0;
             }
         }
@@ -79,35 +99,43 @@ double** createIdentityMatrix(int size) {
 }
 
 // Free matrix memory
-void freeMatrix(double** matrix) {
-    for (int i = 0; i < SIZE; i++) {
+void freeMatrix(double **matrix)
+{
+    for (int i = 0; i < SIZE; i++)
+    {
         free(matrix[i]);
     }
     free(matrix);
 }
 
 // Takes in a int size, multiplies mat1 and mat2 and stores result in result
-void multiplyMatrices(int size,double mat1[size][size],
+void multiplyMatrices(int size, double mat1[size][size],
                       double mat2[size][size],
-                      double result[size][size]) {
+                      double result[size][size])
+{
 
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
             result[i][j] = 0;
         }
     }
 
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            for (int k = 0; k < size; k++) {
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            for (int k = 0; k < size; k++)
+            {
                 result[i][j] += mat1[i][k] * mat2[k][j];
             }
         }
     }
 }
 
-
-void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], double rightMatrix[SIZE][SIZE], int start, int end) {
+void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], double rightMatrix[SIZE][SIZE], int start, int end)
+{
 
     // Allocate memory for the submatrix
     double sweepMatrix[2][2];
@@ -122,8 +150,8 @@ void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], doub
     double angleSum;
     double angleDiff;
 
-    angleSum = atan((sweepMatrix[1][0] + sweepMatrix[0][1])/(sweepMatrix[1][1] - sweepMatrix[0][0]));
-    angleDiff = atan((sweepMatrix[1][0] - sweepMatrix[0][1])/(sweepMatrix[1][1] + sweepMatrix[0][0]));
+    angleSum = atan((sweepMatrix[1][0] + sweepMatrix[0][1]) / (sweepMatrix[1][1] - sweepMatrix[0][0]));
+    angleDiff = atan((sweepMatrix[1][0] - sweepMatrix[0][1]) / (sweepMatrix[1][1] + sweepMatrix[0][0]));
 
     angleL = (angleSum - angleDiff) / 2.0;
     angleR = (angleSum - angleL);
@@ -133,7 +161,7 @@ void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], doub
     // NOTE : It is interesting because the non-diagonial elements are set to 0 always in the demo
 
     // Define all sin / cos calculations once to be reused
-    double cosRotationR  = cos(angleR);
+    double cosRotationR = cos(angleR);
     double sinRotationR = sin(angleR);
     double cosRotationL = cos(angleL);
     double sinRotationL = sin(angleL);
@@ -142,9 +170,8 @@ void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], doub
 
     // Initilization of left Rotation Matrix
     double rotateMatrix[2][2] = {
-    {cosRotationL, -sinRotationL},
-    {sinRotationL, cosRotationL}
-    };
+        {cosRotationL, -sinRotationL},
+        {sinRotationL, cosRotationL}};
 
     multiplyMatrices(2, rotateMatrix, sweepMatrix, resultMatrix);
 
@@ -163,14 +190,12 @@ void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], doub
         {1.0, 0.0, 0.0, 0.0},
         {0.0, 1.0, 0.0, 0.0},
         {0.0, 0.0, 1.0, 0.0},
-        {0.0, 0.0, 0.0, 1.0}
-    };
+        {0.0, 0.0, 0.0, 1.0}};
     double Vs[4][4] = {
         {1.0, 0.0, 0.0, 0.0},
         {0.0, 1.0, 0.0, 0.0},
         {0.0, 0.0, 1.0, 0.0},
-        {0.0, 0.0, 0.0, 1.0}
-    };
+        {0.0, 0.0, 0.0, 1.0}};
     double UTs[4][4];
     double VTs[4][4];
     double VT[4][4];
@@ -180,7 +205,7 @@ void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], doub
     Us[start][end] = -sinRotationL;
     Us[end][start] = sinRotationL;
     Us[end][end] = cosRotationL;
-  
+
     // Add rotation angles to V
     Vs[start][start] = cosRotationR;
     Vs[start][end] = -sinRotationR;
@@ -194,62 +219,60 @@ void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], doub
 
     // Calculate new leftMatrix
     double resultHolder[4][4];
-    multiplyMatrices(4,leftMatrix,UTs, resultHolder);
+    multiplyMatrices(4, leftMatrix, UTs, resultHolder);
     copyMatrix(4, resultHolder, leftMatrix); // Copies result back into the left matrix
 
     // Calculate middle matrix
     multiplyMatrices(4, Us, matrix, resultHolder);
-    multiplyMatrices(4, resultHolder, VTs, matrix); 
+    multiplyMatrices(4, resultHolder, VTs, matrix);
 
     // Calculate right matrix
-    multiplyMatrices(4,Vs,rightMatrix, resultHolder);
+    multiplyMatrices(4, Vs, rightMatrix, resultHolder);
     copyMatrix(4, resultHolder, rightMatrix); // Copies result back into the left matrix
-
 }
 
-int main() {
+int main()
+{
 
     // Init of needed matrices for calculation
     double matrix[SIZE][SIZE] = {
         {31.0, 77.0, -11.0, 26.0},
         {-42.0, 14.0, 79.0, -53.0},
         {-68.0, -10.0, 45.0, 90.0},
-        {34.0, 16.0, 38.0, -19.0}
-    };
+        {34.0, 16.0, 38.0, -19.0}};
 
     double leftMatrix[4][4] = {
         {1.0, 0.0, 0.0, 0.0},
         {0.0, 1.0, 0.0, 0.0},
         {0.0, 0.0, 1.0, 0.0},
-        {0.0, 0.0, 0.0, 1.0}
-    };
+        {0.0, 0.0, 0.0, 1.0}};
 
-     double rightMatrix[4][4] = {
+    double rightMatrix[4][4] = {
         {1.0, 0.0, 0.0, 0.0},
         {0.0, 1.0, 0.0, 0.0},
         {0.0, 0.0, 1.0, 0.0},
-        {0.0, 0.0, 0.0, 1.0}
-    };
+        {0.0, 0.0, 0.0, 1.0}};
 
     int iterations = 0;
 
     // Checks if matrix is diagonal, sets initial condition
-    bool diagMatrix = checkOffDiagonalZeros(4,matrix);
+    bool diagMatrix = checkOffDiagonalZeros(4, matrix);
 
     // Perform sweeps / rotations until the matrix has been diagonalized
-    while (diagMatrix == false) {
-      getSubMatrix(matrix,leftMatrix,rightMatrix,0,1);
-      getSubMatrix(matrix,leftMatrix,rightMatrix,0,2);
-      getSubMatrix(matrix,leftMatrix,rightMatrix,0,3);
-      getSubMatrix(matrix,leftMatrix,rightMatrix,1,2);
-      getSubMatrix(matrix,leftMatrix,rightMatrix,1,3);
-      getSubMatrix(matrix,leftMatrix,rightMatrix,2,3);
-      iterations++;
-      printf("Iteration: %d\n", iterations);
-      diagMatrix = checkOffDiagonalZeros(4,matrix);
+    while (diagMatrix == false)
+    {
+        getSubMatrix(matrix, leftMatrix, rightMatrix, 0, 1);
+        getSubMatrix(matrix, leftMatrix, rightMatrix, 0, 2);
+        getSubMatrix(matrix, leftMatrix, rightMatrix, 0, 3);
+        getSubMatrix(matrix, leftMatrix, rightMatrix, 1, 2);
+        getSubMatrix(matrix, leftMatrix, rightMatrix, 1, 3);
+        getSubMatrix(matrix, leftMatrix, rightMatrix, 2, 3);
+        iterations++;
+        printf("Iteration: %d\n", iterations);
+        diagMatrix = checkOffDiagonalZeros(4, matrix);
     }
 
-    printMatrixArray(4,matrix);
-    
+    printMatrixArray(4, matrix);
+
     return 0;
 }

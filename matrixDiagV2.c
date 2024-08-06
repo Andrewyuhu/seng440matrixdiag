@@ -23,7 +23,7 @@ int to_fixed_point_angle(float value)
 
 float reverse_fixed_point_angles(int value)
 {
-  return (float) value / 16384.0); // 16384 = 2 ^ 14 S.F
+  return (float)value / 16384.0; // 16384 = 2 ^ 14 S.F
 };
 
 // Check if final result is correct

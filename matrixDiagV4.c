@@ -15,21 +15,26 @@ bool checkOffDiagonalZeros(int size, float matrix[4][4]);
 // Converts floating to fixed point
 int to_fixed_point_angle(float value)
 {
-  return (int)roundf(value * 65536); // 16384 = 2 ^ 14 S.F
+  return (int)roundf(value * 16384); // 16384 = 2 ^ 14 S.F
 }
 
 // Converts floating to fixed point
 // 16 bit max value / range (2^11-1, 2^11)
 int to_fixed_point_value(float value)
 {
-  return (int)roundf(value * 16); // 2 ^ 15 / 2 ^ 11 = 2 ^ 4 = 16
+  return (int)roundf(value * 20); // 2 ^ 15 / 2 ^ 11 = 2 ^ 4 = 16
 }
 
 // Converts floating to fixed point
 // 16 bit max value / range (2^11-1, 2^11)
 float to_float_value(int value)
 {
-  return (float)(value / (16.0 * 65536.0)); // 2 ^ (4 + 14)
+  return (float)(value / ((20.0) * (20.0))); // 2 ^ (4 + 14)
+}
+
+float to_float_value_extra(int value)
+{
+  return (float)(value / ((20.0) * (20.0) * (20.0))); // 2 ^ (4 + 14)
 }
 
 // Multiplies two matrices and stores in a resultant matrix
@@ -159,6 +164,17 @@ void convert_4by4_array_int_angle(float array[4][4], int result[4][4])
   }
 }
 
+void convert_4by4_array_float_extra(int array[4][4], float result[4][4])
+{
+  for (int i = 0; i < 4; i++)
+  {
+    for (int j = 0; j < 4; j++)
+    {
+      result[i][j] = to_float_value_extra(array[i][j]);
+    }
+  }
+}
+
 // Preforms the bulk of the Jacobi ALGO
 // Grabs a sub-array of the array
 void getSubMatrix(float matrix[4][4], float leftMatrix[4][4], float rightMatrix[4][4], int start, int end)
@@ -169,15 +185,8 @@ void getSubMatrix(float matrix[4][4], float leftMatrix[4][4], float rightMatrix[
   int leftMatrixFP[4][4];
   int rightMatrixFP[4][4];
   convert_4by4_array_int(matrix, matrixFP);
-  convert_4by4_array_int_angle(rightMatrix, rightMatrixFP);
-  convert_4by4_array_int_angle(leftMatrix, leftMatrixFP);
-
-  // printMatrixArrayInt(4, matrixFP);
-  // printf("Main ^\n");
-  // printMatrixArrayInt(4, leftMatrixFP);
-  // printf("Left ^\n");
-  // printMatrixArrayInt(4, rightMatrixFP);
-  // printf("Right ^\n");
+  convert_4by4_array_int(rightMatrix, rightMatrixFP);
+  convert_4by4_array_int(leftMatrix, leftMatrixFP);
 
   // Grab a sub array to calculate a rotation matrix
   int sweepMatrix[2][2] = {{matrix[start][start], matrix[start][end]},
@@ -196,10 +205,10 @@ void getSubMatrix(float matrix[4][4], float leftMatrix[4][4], float rightMatrix[
 
   // S.F for cos / sin operations is 2^14 for 16 bit integers
   // Conversions from here can be fixed point
-  int cosRotationR = to_fixed_point_angle(cosf(angleR));
-  int sinRotationR = to_fixed_point_angle(sinf(angleR));
-  int cosRotationL = to_fixed_point_angle(cosf(angleL));
-  int sinRotationL = to_fixed_point_angle(sinf(angleL));
+  int cosRotationR = to_fixed_point_value(cosf(angleR));
+  int sinRotationR = to_fixed_point_value(sinf(angleR));
+  int cosRotationL = to_fixed_point_value(cosf(angleL));
+  int sinRotationL = to_fixed_point_value(sinf(angleL));
 
   printf("Fixed Point : \n");
   printf("Cos Value R : %d\n", cosRotationR);
@@ -214,15 +223,15 @@ void getSubMatrix(float matrix[4][4], float leftMatrix[4][4], float rightMatrix[
 
   // Creating needed Matrices
   int Us[4][4] = {
-      {65536, 0, 0, 0},
-      {0, 65536, 0, 0},
-      {0, 0, 65536, 0},
-      {0, 0, 0, 65536}};
+      {16, 0, 0, 0},
+      {0, 16, 0, 0},
+      {0, 0, 16, 0},
+      {0, 0, 0, 16}};
   int Vs[4][4] = {
-      {65536, 0, 0, 0},
-      {0, 65536, 0, 0},
-      {0, 0, 65536, 0},
-      {0, 0, 0, 65536}};
+      {16, 0, 0, 0},
+      {0, 16, 0, 0},
+      {0, 0, 16, 0},
+      {0, 0, 0, 16}};
 
   int UTs[4][4];
   int VTs[4][4];
@@ -277,7 +286,7 @@ void getSubMatrix(float matrix[4][4], float leftMatrix[4][4], float rightMatrix[
   multiplyMatrices(4, resultHolder, VTs, matrixFP);
 
   printMatrixArrayInt(4, matrixFP);
-  convert_4by4_array_float(matrixFP, matrix);
+  convert_4by4_array_float_extra(matrixFP, matrix);
 
   // Calculate right matrix
   multiplyMatrices(4, Vs, rightMatrixFP, resultHolder);
@@ -311,17 +320,19 @@ int main()
 
   // Perform sweeps / rotations until the matrix has been diagonalized
 
-  getSubMatrix(matrix, leftMatrix, rightMatrix, 0, 1);
-  // getSubMatrix(matrix, leftMatrix, rightMatrix, 0, 2);
-  // getSubMatrix(matrix, leftMatrix, rightMatrix, 0, 3);
-  // getSubMatrix(matrix, leftMatrix, rightMatrix, 1, 2);
-  // getSubMatrix(matrix, leftMatrix, rightMatrix, 1, 3);
-  // getSubMatrix(matrix, leftMatrix, rightMatrix, 2, 3);
-  iterations++;
-  printf("Iteration: %d\n", iterations);
+  while (diagMatrix == false)
+  {
+    getSubMatrix(matrix, leftMatrix, rightMatrix, 0, 1);
+    getSubMatrix(matrix, leftMatrix, rightMatrix, 0, 2);
+    getSubMatrix(matrix, leftMatrix, rightMatrix, 0, 3);
+    getSubMatrix(matrix, leftMatrix, rightMatrix, 1, 2);
+    getSubMatrix(matrix, leftMatrix, rightMatrix, 1, 3);
+    getSubMatrix(matrix, leftMatrix, rightMatrix, 2, 3);
+    iterations++;
+    printf("Iteration: %d\n", iterations);
+    printMatrixArray(4, matrix);
+    diagMatrix = checkOffDiagonalZeros(4, matrix);
+  }
   printMatrixArray(4, matrix);
-  // diagMatrix = checkOffDiagonalZeros(4, matrix);
-
-  // printMatrixArray(4, matrix);
   return 0;
 }
