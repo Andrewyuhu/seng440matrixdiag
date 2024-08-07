@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdbool.h> // Include <stdbool.h> for bool type
-#include <stdint.h>
-#define TOLERANCE 0.0001
+
 #define SCALE 9
 #define DESCALE 18
 #define BASE ((1 << (SCALE)) - 1)
@@ -11,6 +10,7 @@
 #define TO_FIXED(angle) ((int)roundf((angle) * (1 << SCALE)))
 // Macro to convert fixed-point to integer
 #define FIXED_TO_INT(fixed) ((fixed) / (1 << DESCALE))
+
 // Check if final result is correct
 bool checkOffDiagonalZeros(int size, int matrix[size][size])
 {
@@ -127,25 +127,15 @@ void multiplyWithTransposed(int mat1[4][4], int mat2[4][4], int storeInMat1)
     }
 }
 
-// Converts [-1,1] to fixed point
-int to_fixed(float angle)
-{
-    return (int)roundf(angle * (1 << SCALE));
-}
-
-int fixed_to_int(int fixed)
-{
-    return (fixed / (1 << DESCALE));
-}
-
+// Reverts scaled matrix back to regular values
 void apply_to_fixed_in_place(int matrix[4][4])
 {
     for (int i = 0; i < 4; i++)
     {
-        for (int j = 0; j < 4; j++)
-        {
-            matrix[i][j] = FIXED_TO_INT(matrix[i][j]);
-        }
+        matrix[i][0] = FIXED_TO_INT(matrix[i][0]);
+        matrix[i][1] = FIXED_TO_INT(matrix[i][1]);
+        matrix[i][2] = FIXED_TO_INT(matrix[i][2]);
+        matrix[i][3] = FIXED_TO_INT(matrix[i][3]);
     }
 }
 
@@ -188,11 +178,11 @@ void getSubMatrix(int matrix[4][4], int start, int end)
     Vs[end][start] = sinRotationR;
     Vs[end][end] = cosRotationR;
 
-    matrixMultiply(Us, matrix, 0); // MIDDLE MATRIX
-    // apply_to_fixed_in_place(matrix);
+    matrixMultiply(Us, matrix, 0);
     multiplyWithTransposed(matrix, Vs, 1);
     apply_to_fixed_in_place(matrix);
 }
+
 int main()
 {
 
@@ -207,6 +197,7 @@ int main()
 
     // Checks if matrix is diagonal, sets initial condition bool diagMatrix = checkOffDiagonalZeros(4, matrix);
     bool diagMatrix = checkOffDiagonalZeros(4, matrix);
+
     // Perform sweeps / rotations until the matrix has been diagonalized
     while (diagMatrix == false)
     {
@@ -222,11 +213,6 @@ int main()
     }
 
     printMatrixArray(4, matrix);
-    // printf("Hexadecimal value: %X\n", -97092);               // %X for uppercase hexadecimal
-    // printf("Hexadecimal Shifted value: %X\n", -97092 >> 22); // %X for uppercase hexadecimal
-    // printf("%d\n", -97092 >> 22);
 
-    // printf("%f\n", -97092 / 4194304.0);
-    // printf("%f\n", roundf(-97092 / 4194304.0));
     return 0;
 }
