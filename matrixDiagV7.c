@@ -14,9 +14,10 @@
 // Check if final result is correct
 bool checkOffDiagonalZeros(int size, int matrix[size][size])
 {
-    for (int i = 0; i < size; i++)
+    int i, j;
+    for (i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (j = 0; j < size; j++)
         {
             if (i != j && 0 != fabs(matrix[i][j]))
             {
@@ -33,7 +34,8 @@ bool checkOffDiagonalZeros(int size, int matrix[size][size])
 // Prints a matrix in an easy to read format
 void printMatrixArray(int size, int matrix[size][size])
 {
-    for (int i = 0; i < size; i++)
+    int i;
+    for (i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
@@ -49,9 +51,10 @@ void matrixMultiply(int mat1[4][4], int mat2[4][4], int storeInMat1)
     int result[4][4];
 
     // Perform matrix multiplication with loop unrolling
-    for (int i = 0; i < 4; i++)
+    int i, j;
+    for (i = 0; i < 4; i++)
     {
-        for (int j = 0; j < 4; j++)
+        for (j = 0; j < 4; j++)
         {
             result[i][j] = 0;
             result[i][j] += mat1[i][0] * mat2[0][j];
@@ -64,7 +67,7 @@ void matrixMultiply(int mat1[4][4], int mat2[4][4], int storeInMat1)
     // Copy the result back to matrix mat1 or mat2 BASEd on the flag storeInMat1
     if (storeInMat1)
     {
-        for (int i = 0; i < 4; i++)
+        for (i = 0; i < 4; i++)
         {
 
             mat1[i][0] = result[i][0];
@@ -75,7 +78,7 @@ void matrixMultiply(int mat1[4][4], int mat2[4][4], int storeInMat1)
     }
     else
     {
-        for (int i = 0; i < 4; i++)
+        for (i = 0; i < 4; i++)
         {
             mat2[i][0] = result[i][0];
             mat2[i][1] = result[i][1];
@@ -90,9 +93,11 @@ void multiplyWithTransposed(int mat1[4][4], int mat2[4][4], int storeInMat1)
     int result[4][4];
 
     // Perform matrix multiplication where mat2 is accessed as its transpose
-    for (int i = 0; i < 4; i++)
+    int i;
+    int j;
+    for (i = 0; i < 4; i++)
     {
-        for (int j = 0; j < 4; j++)
+        for (j = 0; j < 4; j++)
         {
             result[i][j] = 0;
 
@@ -107,7 +112,7 @@ void multiplyWithTransposed(int mat1[4][4], int mat2[4][4], int storeInMat1)
     // Copy the result back to matrix mat1 or mat2 BASEd on the flag storeInMat1
     if (storeInMat1)
     {
-        for (int i = 0; i < 4; i++)
+        for (i = 0; i < 4; i++)
         {
             mat1[i][0] = result[i][0];
             mat1[i][1] = result[i][1];
@@ -117,7 +122,7 @@ void multiplyWithTransposed(int mat1[4][4], int mat2[4][4], int storeInMat1)
     }
     else
     {
-        for (int i = 0; i < 4; i++)
+        for (i = 0; i < 4; i++)
         {
             mat2[i][0] = result[i][0];
             mat2[i][1] = result[i][1];
@@ -130,7 +135,8 @@ void multiplyWithTransposed(int mat1[4][4], int mat2[4][4], int storeInMat1)
 // Reverts scaled matrix back to regular values
 void apply_to_fixed_in_place(int matrix[4][4])
 {
-    for (int i = 0; i < 4; i++)
+    int i;
+    for (i = 0; i < 4; i++)
     {
         matrix[i][0] = FIXED_TO_INT(matrix[i][0]);
         matrix[i][1] = FIXED_TO_INT(matrix[i][1]);
