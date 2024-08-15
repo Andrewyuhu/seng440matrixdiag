@@ -3,8 +3,8 @@
 #include <math.h>
 #include <stdbool.h> // Include <stdbool.h> for bool type
 
-#define SCALE 9
-#define DESCALE 18
+#define SCALE 11
+#define DESCALE 11
 #define BASE ((1 << (SCALE)) - 1)
 // Macro to convert float to fixed-point
 #define TO_FIXED(angle) ((int)roundf((angle) * (1 << SCALE)))
@@ -185,6 +185,7 @@ void getSubMatrix(int matrix[4][4], int start, int end)
     Vs[end][end] = cosRotationR;
 
     matrixMultiply(Us, matrix, 0);
+    apply_to_fixed_in_place(matrix);
     multiplyWithTransposed(matrix, Vs, 1);
     apply_to_fixed_in_place(matrix);
 }
