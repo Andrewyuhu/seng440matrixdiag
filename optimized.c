@@ -34,10 +34,10 @@ bool checkOffDiagonalZeros(int size, int matrix[size][size])
 // Prints a matrix in an easy to read format
 void printMatrixArray(int size, int matrix[size][size])
 {
-    int i;
+    int i, j;
     for (i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (j = 0; j < size; j++)
         {
             printf("%d ", matrix[i][j]);
         }
