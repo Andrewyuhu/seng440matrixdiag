@@ -19,9 +19,10 @@ bool checkOffDiagonalZeros(int size, double matrix[size][size]);
 // Check if final result is correct
 bool checkOffDiagonalZeros(int size, double matrix[size][size])
 {
-    for (int i = 0; i < size; i++)
+    int i, j;
+    for (i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (j = 0; j < size; j++)
         {
             if (i != j && fabs(matrix[i][j]) > TOLERANCE)
             {
@@ -35,9 +36,10 @@ bool checkOffDiagonalZeros(int size, double matrix[size][size])
 // Takes a matrix and transposes it
 void transposeMatrix(int size, double matrix[size][size], double transposed[size][size])
 {
-    for (int i = 0; i < size; i++)
+    int i, j;
+    for (i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (j = 0; j < size; j++)
         {
             transposed[j][i] = matrix[i][j];
         }
@@ -47,9 +49,10 @@ void transposeMatrix(int size, double matrix[size][size], double transposed[size
 // Copies a matrix from one var to another
 void copyMatrix(int size, double source[size][size], double destination[size][size])
 {
-    for (int i = 0; i < size; i++)
+    int i, j;
+    for (i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (j = 0; j < size; j++)
         {
             destination[i][j] = source[i][j];
         }
@@ -59,9 +62,10 @@ void copyMatrix(int size, double source[size][size], double destination[size][si
 // Prints a matrix in an easy to read format
 void printMatrixArray(int size, double matrix[size][size])
 {
-    for (int i = 0; i < size; i++)
+    int i, j;
+    for (i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (j = 0; j < size; j++)
         {
             printf("%f ", matrix[i][j]);
         }
@@ -72,17 +76,18 @@ void printMatrixArray(int size, double matrix[size][size])
 // Creates a size x size identity matrix and returns the pointer
 double **createIdentityMatrix(int size)
 {
+    int i, j;
     // Allocate memory for the s x s matrix
     double **matrix = (double **)malloc(size * sizeof(double *));
-    for (int i = 0; i < size; i++)
+    for (i = 0; i < size; i++)
     {
         matrix[i] = (double *)malloc(size * sizeof(double));
     }
 
     // Initialize the matrix to be an identity matrix
-    for (int i = 0; i < size; i++)
+    for (i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (j = 0; j < size; j++)
         {
             if (i == j)
             {
@@ -101,7 +106,8 @@ double **createIdentityMatrix(int size)
 // Free matrix memory
 void freeMatrix(double **matrix)
 {
-    for (int i = 0; i < SIZE; i++)
+    int i;
+    for (i = 0; i < SIZE; i++)
     {
         free(matrix[i]);
     }
@@ -113,20 +119,20 @@ void multiplyMatrices(int size, double mat1[size][size],
                       double mat2[size][size],
                       double result[size][size])
 {
-
-    for (int i = 0; i < size; i++)
+    int i, j, k;
+    for (i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (j = 0; j < size; j++)
         {
             result[i][j] = 0;
         }
     }
 
-    for (int i = 0; i < size; i++)
+    for (i = 0; i < size; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (j = 0; j < size; j++)
         {
-            for (int k = 0; k < size; k++)
+            for (k = 0; k < size; k++)
             {
                 result[i][j] += mat1[i][k] * mat2[k][j];
             }
@@ -136,6 +142,7 @@ void multiplyMatrices(int size, double mat1[size][size],
 
 void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], double rightMatrix[SIZE][SIZE], int start, int end)
 {
+    int i, j;
 
     // Allocate memory for the submatrix
     double sweepMatrix[2][2];
@@ -233,6 +240,7 @@ void getSubMatrix(double matrix[SIZE][SIZE], double leftMatrix[SIZE][SIZE], doub
 
 int main()
 {
+    int iterations = 0;
 
     // Init of needed matrices for calculation
     double matrix[SIZE][SIZE] = {
@@ -252,8 +260,6 @@ int main()
         {0.0, 1.0, 0.0, 0.0},
         {0.0, 0.0, 1.0, 0.0},
         {0.0, 0.0, 0.0, 1.0}};
-
-    int iterations = 0;
 
     // Checks if matrix is diagonal, sets initial condition
     bool diagMatrix = checkOffDiagonalZeros(4, matrix);
