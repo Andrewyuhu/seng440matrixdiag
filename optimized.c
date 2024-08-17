@@ -19,7 +19,7 @@ bool checkOffDiagonalZeros(int size, int matrix[size][size])
     {
         for (j = 0; j < size; j++)
         {
-            if (i != j && 0 != fabs(matrix[i][j]))
+            if (i != j && 0 != matrix[i][j])
             {
                 return false;
             }
